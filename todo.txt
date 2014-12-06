@@ -1,0 +1,7 @@
+- Basic game world - Tile based/
+
+- Player
+    - Can walk around/
+    - Collision detecting/
+    - Can shoot
+

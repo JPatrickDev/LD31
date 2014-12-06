@@ -1,0 +1,37 @@
+Theme: Entire game on one screen
+
+Stationary camera
+
+Small platformer?
+Escape a room?
+
+*******************************************************************************************************
+Top down - Survival against waves of snowmen or something?
+    - Can get upgrades for weapons and stuff
+    - Can't leave map area, camera doesn't move
+    - Multipliers
+    - Gets harder as the game goes on
+    - boss level
+    - Local multiplayer option?
+    - Fast paced
+    - large amount of graphic effects
+        - Lighting
+        - Particle effects
+        - Blood splats
+    - Money system?
+    - Snowmen drop guns?
+    - Some snowmen are upgraded and can shoot snowballs?
+    - Power-ups
+        - Temp health upgrade
+        - Temp fire rate upgrade
+
+********************************************************************************************************
+
+Puzzle game?
+
+
+Tycoon game? Strategy game?
+ - Constructing a transport network
+
+
+Tower defence?

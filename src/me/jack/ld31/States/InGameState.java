@@ -24,7 +24,7 @@ public class InGameState extends BasicGameState{
 
     //DO ALL LOADING HERE, ALLOWS GAME TO BE REPLAYED WITHOUT RESTARTING THE PROGRAM
     public void load(){
-        level = new Level(100,75);
+        level = new Level(50,37);
         level.initLevel();
     }
 
@@ -36,7 +36,7 @@ public class InGameState extends BasicGameState{
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-         level.update();
+         level.update(gameContainer);
         if(Mouse.isButtonDown(0)){
             Input input = gameContainer.getInput();
             level.mouseClick(input.getMouseX(),input.getMouseY(),0);

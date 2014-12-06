@@ -2,10 +2,14 @@ package me.jack.ld31.Level;
 
 import me.jack.ld31.Entity.Entity;
 import me.jack.ld31.Entity.EntityBaseEnemy;
-import me.jack.ld31.Entity.EntityBullet;
 import me.jack.ld31.Entity.EntityPlayer;
+import me.jack.ld31.Entity.Mob;
+import me.jack.ld31.Projectile.BulletProjectile;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SpriteSheet;
+import uk.co.jdpatrick.JEngine.Image.ImageUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -21,7 +25,7 @@ public class Level {
     private int height;
 
 
-    public static final int TILE_SIZE = 8;
+    public static final int TILE_SIZE = 16;
 
 
     public ArrayList<Rectangle> hitboxes = new ArrayList<Rectangle>();
@@ -36,6 +40,12 @@ public class Level {
 
     private ArrayList<MobSpawner> spawners = new ArrayList<MobSpawner>();
 
+    private int round = 1;
+
+    public static SpriteSheet sprites;
+    public static SpriteSheet powerups;
+    public static SpriteSheet tileImages;
+
     public Level(int width, int height){
         this.width = width;
         this.height = height;
@@ -46,12 +56,15 @@ public class Level {
         this.tiles = new int[width][height];
         populateWalls();
         player = new EntityPlayer(5*TILE_SIZE,5*TILE_SIZE);
+        player.init();
+        sprites = new SpriteSheet(ImageUtil.loadImage("/res/sprites.png"),8,8);
+        powerups = new SpriteSheet(ImageUtil.loadImage("/res/powerups.png"),16,16);
+        tileImages = new SpriteSheet(ImageUtil.loadImage("/res/tiles.png"),16,16);
+
         gameWorld = new Rectangle(1*TILE_SIZE,1*TILE_SIZE,(width * TILE_SIZE)-2*TILE_SIZE,(height * TILE_SIZE)-2 *TILE_SIZE);
 
         entities.clear();
-        for(int i = 0;i!= 10;i++){
-                entities.add(new EntityBaseEnemy(50,50));
-        }
+
         spawners.clear();
         spawners.add(new MobSpawner(2,2));
         spawners.add(new MobSpawner(width - 4,2));
@@ -59,6 +72,14 @@ public class Level {
 
         spawners.add(new MobSpawner(2,height -4));
         spawners.add(new MobSpawner(width - 4,height-4));
+        round = 1;
+
+        for(MobSpawner spawner : spawners)spawner.spawnWave(this);
+
+        BulletProjectile.i = Level.sprites.getSprite(0,0);
+
+
+
     }
 
     private void populateWalls() {
@@ -83,27 +104,32 @@ public class Level {
         return false;//TODO implement
     }
 
-    public void update(){
+    boolean roundInProgress = false;
+    public void update(GameContainer gc){
+
+        if(entities.size() > 0)roundInProgress = true;
         for(Entity e : entities)e.update(this);
         player.update(this);
 
         for(MobSpawner spawner: spawners)
             spawner.update(this);
+
+
+        player.angle = (float) -(Math.atan2(player.getX() - gc.getInput().getMouseX(), player.getY() - gc.getInput().getMouseY()) * 180 / Math.PI);
+
+
     }
+
+
 
     public void render(Graphics g){
         for(int x =0;x!=width;x++){
             for(int y= 0;y!=height;y++){
                 if(tiles[x][y] == 0)
-                g.setColor(Color.white);
+                    g.drawImage(tileImages.getSubImage(1,0),x*TILE_SIZE,y*TILE_SIZE);
                 else
-                g.setColor(Color.darkGray);
-                g.fillRect(x*TILE_SIZE,y*TILE_SIZE,TILE_SIZE,TILE_SIZE);
-                if(tiles[x][y] == 1) {
-                    g.setColor(Color.black);
-                    g.drawRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-                }
-                g.setColor(Color.white);
+                g.drawImage(tileImages.getSubImage(0,0),x*TILE_SIZE,y*TILE_SIZE);
+
             }
         }
 
@@ -113,6 +139,9 @@ public class Level {
 
         for(MobSpawner spawner: spawners)
             spawner.render(g);
+
+        g.setColor(Color.red);
+        g.drawString("Ammo:" + player.ammo,100,50);
     }
 
     public int getWidth() {
@@ -129,9 +158,26 @@ public class Level {
 
     public void removeEntity(Entity entity) {
         entities.remove(entity);
+        if(entity instanceof Mob){
+            boolean found = false;
+            for(Entity e : entities){
+                if(!(e instanceof Mob))continue;
+                found = true;
+            }
+            if(!found){
+                round+=1;
+                for(MobSpawner spawner: spawners){
+                    spawner.spawnWave(this);
+                }
+            }
+        }
     }
 
     public EntityPlayer getPlayer() {
         return player;
+    }
+
+    public int getRound() {
+        return round;
     }
 }

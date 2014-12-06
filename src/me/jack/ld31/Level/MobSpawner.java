@@ -1,8 +1,12 @@
 package me.jack.ld31.Level;
 
+import me.jack.ld31.Entity.Entity;
 import me.jack.ld31.Entity.EntityBaseEnemy;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by Jack on 06/12/2014.
@@ -13,10 +17,10 @@ public class MobSpawner {
     private int y;
 
 
-    private long spawnDelay = 500;
-    private int mobsToSpawn;
 
 
+
+    private ArrayList<Entity> mobQueue = new ArrayList<Entity>();
 
     public MobSpawner(int x,int y){
         this.x = x;
@@ -24,18 +28,36 @@ public class MobSpawner {
     }
 
 
-    private long lastSpawn = 0;
+    private long lastSpawn = System.currentTimeMillis();
+    private long spawnDelay = 500;
     public void update(Level level){
-        if(lastSpawn == 0){
-            lastSpawn = System.currentTimeMillis();
-            return;
-        }
+
+        if(mobQueue.size() == 0)return;
         if(System.currentTimeMillis() - lastSpawn >= spawnDelay){
-            level.addEntity(new EntityBaseEnemy(x * Level.TILE_SIZE,y*Level.TILE_SIZE));
+            Entity i = mobQueue.get(0);
+            i.init();
+            level.addEntity(i);
+            mobQueue.remove(0);
             lastSpawn = System.currentTimeMillis();
         }
+    }
 
+    public void spawnWave(Level level){
 
+        System.out.println("Spawning wave");
+
+        Random r = new Random();
+        int minX = x* Level.TILE_SIZE - Level.TILE_SIZE;
+        int minY = y* Level.TILE_SIZE - Level.TILE_SIZE;
+
+        int maxX = x* Level.TILE_SIZE +  Level.TILE_SIZE;
+        int maxY = y* Level.TILE_SIZE +  Level.TILE_SIZE;
+
+        for(int i = 0;i!= level.getRound() * 10;i++){
+            int spawnX = minX + r.nextInt(maxX - minX + 1);
+            int spawnY = minY + r.nextInt(maxY - minY + 1);
+            mobQueue.add(new EntityBaseEnemy(spawnX, spawnY));
+        }
     }
 
     public void render(Graphics g){
@@ -43,4 +65,5 @@ public class MobSpawner {
         g.fillRect(x*Level.TILE_SIZE,y*Level.TILE_SIZE,Level.TILE_SIZE*2,Level.TILE_SIZE*2);
         g.setColor(Color.white);
     }
+
 }

@@ -10,18 +10,33 @@ Shooting:
 
     - Delay between shots/
         - Configurable (Powerups)
-    - Ammo
+    - Ammo/
     - Different types of ammo
     - Bullets need a lifespan/
+    - reloading instead of ammo?
+        - Infinite ammo, but have to reload every 30 shots?
+        - Powerups can reduce this reload time or increase shots between reloads
+        - Stops spraying and praying
+
 
 
 
     Bullet system:
 
-    - Base bullet class, abstract
-    - onSpawn, onHit, onDestroy methods
-    - movespeed, damage
+    - Base bullet class, abstract/
+    - onSpawn, onHit, onDestroy methods/
+    - movespeed, damage/
     - Allows bullets to have different animations and stuff when they hit
 
 
     Obstacles around the map, making it harder to get around
+
+
+Waves need adding
+    - Wave lasts until you kill all the enemies that spawned at the start/
+    - gets harder as the game goes on/
+    - Later rounds spawn harder enemies
+
+Bugs:
+
+    -Item hitboxes seem to be a little off

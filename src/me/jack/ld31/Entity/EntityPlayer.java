@@ -2,6 +2,9 @@ package me.jack.ld31.Entity;
 
 import me.jack.ld31.Level.Level;
 import me.jack.ld31.Projectile.BulletProjectile;
+import me.jack.ld31.Weapon.Grenade;
+import me.jack.ld31.Weapon.Pistol;
+import me.jack.ld31.Weapon.Weapon;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
@@ -10,6 +13,7 @@ import org.newdawn.slick.Image;
 import uk.co.jdpatrick.JEngine.Image.ImageUtil;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Created by Jack on 06/12/2014.
@@ -21,21 +25,24 @@ public class EntityPlayer extends Mob{
         super(x, y,50);
     }
 
+    public ArrayList<Weapon> weaponWheel = new ArrayList<Weapon>();
+
     @Override
     public void init() {
         if(i == null){
             i = ImageUtil.loadImage("/res/player.png");
             i.setCenterOfRotation(17,5);
         }
+
+        weaponWheel.add(new Pistol());
+        weaponWheel.add(new Grenade());
     }
 
 
     float moveSpeed = 4f;
 
-    long shotDelayMilis = 25;
-    long lastShot = 0;
+    public int currentWeapon = 1;
 
-    public int ammo = 500;
 
     public float angle;
     @Override
@@ -84,24 +91,9 @@ public class EntityPlayer extends Mob{
 
 
     public void mousePressed(int mx,int my, int button,Level level){
-        if(lastShot ==0 && ammo > 0) {
-            lastShot = System.currentTimeMillis();
-            EntityProjectile bullet = new EntityProjectile(x,y,mx,my, new BulletProjectile());
-            level.addEntity(bullet);
-            bullet.getProjectile().onSpawn(level);
-            ammo-=1;
-            return;
-        }
 
-        long currentTime = System.currentTimeMillis();
+        weaponWheel.get(currentWeapon).use(level,mx,my);
 
-        if(currentTime - lastShot >=shotDelayMilis && ammo > 0)  {
-            EntityProjectile bullet = new EntityProjectile(x, y, mx, my, new BulletProjectile());
-            level.addEntity(bullet);
-            bullet.getProjectile().onSpawn(level);
-            lastShot = System.currentTimeMillis();
-            ammo-=1;
-        }
     }
 
     @Override

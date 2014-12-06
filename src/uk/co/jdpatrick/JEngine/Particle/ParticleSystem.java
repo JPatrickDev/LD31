@@ -63,4 +63,8 @@ public class ParticleSystem {
     public void removeParticle(Particle p) {
         particles.remove(p);
     }
+
+    public ArrayList<Particle> getParticles() {
+        return particles;
+    }
 }

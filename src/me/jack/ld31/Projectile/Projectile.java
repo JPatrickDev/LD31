@@ -13,10 +13,11 @@ public abstract class Projectile {
     private String name;
     public static Image i;
 
-    public Projectile(float damage, int moveSpeed,String name){
+    public Projectile(float damage, int moveSpeed,String name,Image i){
         this.damage = damage;
         this.moveSpeed = moveSpeed;
         this.name = name;
+        this.i = i;
 
     }
 

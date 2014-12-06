@@ -10,6 +10,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SpriteSheet;
 import uk.co.jdpatrick.JEngine.Image.ImageUtil;
+import uk.co.jdpatrick.JEngine.Particle.ParticleSystem;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Created by Jack on 06/12/2014.
  */
 public class Level {
+
 
     private int[][] tiles;
     private int width;
@@ -42,9 +44,13 @@ public class Level {
 
     private int round = 1;
 
+   public ParticleSystem particleSystem =new ParticleSystem();
+
     public static SpriteSheet sprites;
     public static SpriteSheet powerups;
     public static SpriteSheet tileImages;
+    public static SpriteSheet weapons;
+
 
     public Level(int width, int height){
         this.width = width;
@@ -56,13 +62,13 @@ public class Level {
         this.tiles = new int[width][height];
         populateWalls();
         player = new EntityPlayer(5*TILE_SIZE,5*TILE_SIZE);
-        player.init();
+
         sprites = new SpriteSheet(ImageUtil.loadImage("/res/sprites.png"),8,8);
         powerups = new SpriteSheet(ImageUtil.loadImage("/res/powerups.png"),16,16);
         tileImages = new SpriteSheet(ImageUtil.loadImage("/res/tiles.png"),16,16);
-
+        weapons = new SpriteSheet(ImageUtil.loadImage("/res/weapons.png"),16,16);
         gameWorld = new Rectangle(1*TILE_SIZE,1*TILE_SIZE,(width * TILE_SIZE)-2*TILE_SIZE,(height * TILE_SIZE)-2 *TILE_SIZE);
-
+        player.init();
         entities.clear();
 
         spawners.clear();
@@ -117,6 +123,7 @@ public class Level {
 
         player.angle = (float) -(Math.atan2(player.getX() - gc.getInput().getMouseX(), player.getY() - gc.getInput().getMouseY()) * 180 / Math.PI);
 
+        particleSystem.update();
 
     }
 
@@ -140,8 +147,9 @@ public class Level {
         for(MobSpawner spawner: spawners)
             spawner.render(g);
 
+        particleSystem.render(g,0,0);
         g.setColor(Color.red);
-        g.drawString("Ammo:" + player.ammo,100,50);
+     //   g.drawString("Ammo:" + player.ammo,100,50);
     }
 
     public int getWidth() {

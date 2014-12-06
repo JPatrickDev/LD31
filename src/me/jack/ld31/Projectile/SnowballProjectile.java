@@ -1,16 +1,15 @@
 package me.jack.ld31.Projectile;
 
 import me.jack.ld31.Level.Level;
-import org.newdawn.slick.Image;
 
 /**
  * Created by Jack on 06/12/2014.
  */
-public class BulletProjectile extends Projectile{
+public class SnowballProjectile  extends Projectile{
 
 
-    public BulletProjectile() {
-        super(5f,10,"Bullet",Level.sprites.getSprite(0,0));
+    public SnowballProjectile() {
+        super(4f,5,"Snowball",Level.sprites.getSprite(3,0));
 
     }
 
@@ -18,7 +17,7 @@ public class BulletProjectile extends Projectile{
 
     @Override
     public void onSpawn(Level level) {
-      //  System.out.println("Spawned");
+        //  System.out.println("Spawned");
     }
 
     @Override
@@ -28,6 +27,6 @@ public class BulletProjectile extends Projectile{
 
     @Override
     public void onDestroy(Level level) {
-      //  System.out.println("Destroyed");
+        //  System.out.println("Destroyed");
     }
 }

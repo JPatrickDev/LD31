@@ -64,6 +64,7 @@ public class EntityProjectile  extends Entity{
 
     public void notifyHitEntity(Entity hit,Level level){
         projectile.onHitEntity(level);
+        level.removeEntity(this);
     }
 
     @Override

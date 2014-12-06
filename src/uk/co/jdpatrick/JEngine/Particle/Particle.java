@@ -45,6 +45,7 @@ public abstract class Particle {
      * Integer Y position of the Particle, used for rendering.
      */
     protected int y;
+    public boolean remove = false;
 
     /**
      * Create a new Particle
@@ -72,4 +73,8 @@ public abstract class Particle {
      * @param system The {@code ParticleSystem} the Particle belongs to
      */
     public abstract void update(ParticleSystem system);
+
+    public Shape getParticle() {
+        return particle;
+    }
 }

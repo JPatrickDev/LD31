@@ -53,10 +53,10 @@ public class MobSpawner {
         int maxX = x* Level.TILE_SIZE +  Level.TILE_SIZE;
         int maxY = y* Level.TILE_SIZE +  Level.TILE_SIZE;
 
-        for(int i = 0;i!= level.getRound() * 10;i++){
+        for(int i = 0;i!= level.getRound() * 3;i++){
             int spawnX = minX + r.nextInt(maxX - minX + 1);
             int spawnY = minY + r.nextInt(maxY - minY + 1);
-            mobQueue.add(new EntityBaseEnemy(spawnX, spawnY));
+            mobQueue.add(new EntityBaseEnemy(spawnX, spawnY, level.getRound() >= 5));
         }
     }
 

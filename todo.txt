@@ -13,10 +13,12 @@ Shooting:
     - Ammo/
     - Different types of ammo
     - Bullets need a lifespan/
-    - reloading instead of ammo?
-        - Infinite ammo, but have to reload every 30 shots?
-        - Powerups can reduce this reload time or increase shots between reloads
-        - Stops spraying and praying
+    - Snowmen can shoot snowballs/
+        - Needs improving
+            - player needs to be damaged
+            - Longer life for the snowball
+            - NEeds to be dodgeable
+
 
 
 
@@ -36,6 +38,7 @@ Waves need adding
     - Wave lasts until you kill all the enemies that spawned at the start/
     - gets harder as the game goes on/
     - Later rounds spawn harder enemies
+        - After round 5 some snowmen can shoot snowballs/
 
 Bugs:
 

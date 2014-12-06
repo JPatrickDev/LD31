@@ -18,6 +18,7 @@ public class InGameState extends BasicGameState{
     private Level level;
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
+        gameContainer.setShowFPS(false);
         load();
     }
 

@@ -18,12 +18,14 @@ public class EntityBullet extends Entity{
 
     private float vX;
     private float vY;
+
+    private float life = 1f;
     public EntityBullet(float x, float y, float targetX, float targetY) {
         super(x, y);
         float xSpeed = (targetX - x);
         float ySpeed = (targetY - y);
 
-        float factor = (float) (5 / Math.sqrt(xSpeed * xSpeed + ySpeed * ySpeed));
+        float factor = (float) (8 / Math.sqrt(xSpeed * xSpeed + ySpeed * ySpeed));
         xSpeed *= factor;
         ySpeed *= factor;
         vX = xSpeed;
@@ -45,12 +47,14 @@ public class EntityBullet extends Entity{
         if(x<0|| x > 800 || y < 0 || y > 600){
             level.removeEntity(this);
         }
+        life-=0.025;
+        if(life <=0)level.removeEntity(this);
     }
 
     @Override
     public void render(Graphics g) {
         g.setColor(Color.red);
-        g.fillRect(x,y,4,4);
+        g.fillRect(x,y,8,8);
         g.setColor(Color.white);
     }
 }

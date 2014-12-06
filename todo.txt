@@ -3,5 +3,25 @@
 - Player
     - Can walk around/
     - Collision detecting/
-    - Can shoot
+    - Can shoot/
 
+
+Shooting:
+
+    - Delay between shots/
+        - Configurable (Powerups)
+    - Ammo
+    - Different types of ammo
+    - Bullets need a lifespan/
+
+
+
+    Bullet system:
+
+    - Base bullet class, abstract
+    - onSpawn, onHit, onDestroy methods
+    - movespeed, damage
+    - Allows bullets to have different animations and stuff when they hit
+
+
+    Obstacles around the map, making it harder to get around

@@ -12,11 +12,11 @@ import java.awt.*;
 /**
  * Created by Jack on 06/12/2014.
  */
-public class EntityPlayer extends Entity{
+public class EntityPlayer extends Mob{
 
 
     public EntityPlayer(float x, float y) {
-        super(x, y);
+        super(x, y,50);
 
         System.out.println(x + ":" + y);
     }
@@ -28,6 +28,9 @@ public class EntityPlayer extends Entity{
 
 
     float moveSpeed = 4f;
+
+    long shotDelayMilis = 25;
+    long lastShot = 0;
     @Override
     public void update(Level level) {
 
@@ -67,9 +70,20 @@ public class EntityPlayer extends Entity{
 
 
     public void mousePressed(int mx,int my, int button,Level level){
-        EntityBullet bullet = new EntityBullet(x,y,mx,my);
+        if(lastShot ==0) {
+            lastShot = System.currentTimeMillis();
+            EntityBullet bullet = new EntityBullet(x,y,mx,my);
+            level.addEntity(bullet);
+            return;
+        }
 
-        level.addEntity(bullet);
+        long currentTime = System.currentTimeMillis();
+
+        if(currentTime - lastShot >=shotDelayMilis) {
+            EntityBullet bullet = new EntityBullet(x, y, mx, my);
+            level.addEntity(bullet);
+            lastShot = System.currentTimeMillis();
+        }
     }
 
     @Override

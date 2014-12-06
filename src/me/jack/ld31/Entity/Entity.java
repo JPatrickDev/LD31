@@ -19,4 +19,12 @@ public abstract class Entity{
     public abstract void init();
     public abstract void update(Level level);
     public abstract void render(Graphics g);
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
 }

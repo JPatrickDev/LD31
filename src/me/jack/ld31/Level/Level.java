@@ -1,6 +1,7 @@
 package me.jack.ld31.Level;
 
 import me.jack.ld31.Entity.Entity;
+import me.jack.ld31.Entity.EntityBaseEnemy;
 import me.jack.ld31.Entity.EntityBullet;
 import me.jack.ld31.Entity.EntityPlayer;
 import org.newdawn.slick.Color;
@@ -30,21 +31,34 @@ public class Level {
 
     public Rectangle gameWorld;
 
-    private CopyOnWriteArrayList<Entity> entities = new CopyOnWriteArrayList<Entity>();
+    public CopyOnWriteArrayList<Entity> entities = new CopyOnWriteArrayList<Entity>();
 
 
+    private ArrayList<MobSpawner> spawners = new ArrayList<MobSpawner>();
 
     public Level(int width, int height){
         this.width = width;
         this.height = height;
-        this.tiles = new int[width][height];
-        
-        populateWalls();
+
     }
 
     public void initLevel(){
+        this.tiles = new int[width][height];
+        populateWalls();
         player = new EntityPlayer(5*TILE_SIZE,5*TILE_SIZE);
         gameWorld = new Rectangle(1*TILE_SIZE,1*TILE_SIZE,(width * TILE_SIZE)-2*TILE_SIZE,(height * TILE_SIZE)-2 *TILE_SIZE);
+
+        entities.clear();
+        for(int i = 0;i!= 10;i++){
+                entities.add(new EntityBaseEnemy(50,50));
+        }
+        spawners.clear();
+        spawners.add(new MobSpawner(2,2));
+        spawners.add(new MobSpawner(width - 4,2));
+
+
+        spawners.add(new MobSpawner(2,height -4));
+        spawners.add(new MobSpawner(width - 4,height-4));
     }
 
     private void populateWalls() {
@@ -62,7 +76,7 @@ public class Level {
         }
 
         hitboxes.add(new Rectangle(0,0,TILE_SIZE,height*TILE_SIZE));
-        hitboxes.add(new Rectangle(0,0,TILE_SIZE,height*TILE_SIZE));
+        hitboxes.add(new Rectangle(width * TILE_SIZE - TILE_SIZE,0,TILE_SIZE,height*TILE_SIZE));
     }
 
     public boolean solid(int x,int y){
@@ -72,6 +86,9 @@ public class Level {
     public void update(){
         for(Entity e : entities)e.update(this);
         player.update(this);
+
+        for(MobSpawner spawner: spawners)
+            spawner.update(this);
     }
 
     public void render(Graphics g){
@@ -94,8 +111,8 @@ public class Level {
 
         player.render(g);
 
-        g.setColor(Color.green);
-       g.drawRect((int) gameWorld.getX(), (int) gameWorld.getY(), (int) gameWorld.getWidth(), (int) gameWorld.getHeight());
+        for(MobSpawner spawner: spawners)
+            spawner.render(g);
     }
 
     public int getWidth() {
@@ -112,5 +129,9 @@ public class Level {
 
     public void removeEntity(Entity entity) {
         entities.remove(entity);
+    }
+
+    public EntityPlayer getPlayer() {
+        return player;
     }
 }

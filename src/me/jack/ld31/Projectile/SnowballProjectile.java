@@ -9,7 +9,7 @@ public class SnowballProjectile  extends Projectile{
 
 
     public SnowballProjectile() {
-        super(4f,5,"Snowball",Level.sprites.getSprite(3,0),3f);
+        super(1f,4,"Snowball",Level.sprites.getSprite(3,0),3f);
 
     }
 

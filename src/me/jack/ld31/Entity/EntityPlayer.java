@@ -43,7 +43,7 @@ public class EntityPlayer extends Mob{
     @Override
     public void init() {
         if(i == null){
-            i = ImageUtil.loadImage("/res/player.png");
+            i = ImageUtil.loadImage("res/player.png");
             i.setCenterOfRotation(17,5);
         }
 
@@ -110,6 +110,9 @@ public class EntityPlayer extends Mob{
             powerup.update(level);
         }
 
+       if(getHealth() <= 0){
+           level.playerDead();
+       }
 
     }
 

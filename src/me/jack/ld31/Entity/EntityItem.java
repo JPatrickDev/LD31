@@ -3,6 +3,8 @@ package me.jack.ld31.Entity;
 import me.jack.ld31.Item.BulletItem;
 import me.jack.ld31.Item.Item;
 import me.jack.ld31.Level.Level;
+import me.jack.ld31.Weapon.Grenade;
+import me.jack.ld31.Weapon.Missile;
 import me.jack.ld31.Weapon.Pistol;
 import org.newdawn.slick.Graphics;
 
@@ -45,6 +47,8 @@ public class EntityItem extends Entity{
        // level.getPlayer().weaponWheel.get(current)//TODO remimplement
         if(item instanceof BulletItem){
             ((Pistol) level.getPlayer().weaponWheel.get(0)).ammo+=20;
+            ((Grenade) level.getPlayer().weaponWheel.get(1)).ammo+=2;
+            ((Missile) level.getPlayer().weaponWheel.get(2)).ammo+=2;
         }
     }
 }

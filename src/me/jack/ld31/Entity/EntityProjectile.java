@@ -2,8 +2,11 @@ package me.jack.ld31.Entity;
 
 import me.jack.ld31.Level.Level;
 import me.jack.ld31.Projectile.Projectile;
+import me.jack.ld31.Projectile.SnowballProjectile;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+
+import java.awt.*;
 
 /**
  * Created by Jack on 06/12/2014.
@@ -61,6 +64,12 @@ public class EntityProjectile  extends Entity{
             level.removeEntity(this);
             projectile.onDestroy(level);
         }
+
+        Rectangle me = new Rectangle((int)x,(int)y,16,16);
+        Rectangle player = new Rectangle((int)level.getPlayer().getX(),(int)level.getPlayer().getY(),32,32);
+        if(me.intersects(player)){
+            onPlayerIntersect(level);
+        }
     }
 
     public void notifyHitEntity(Entity hit,Level level){
@@ -75,6 +84,10 @@ public class EntityProjectile  extends Entity{
 
     @Override
     public void onPlayerIntersect(Level level) {
+        if(projectile instanceof SnowballProjectile){
+            level.getPlayer().removeHealth(projectile.getDamage());
+            level.removeEntity(this);
+        }
 
     }
 

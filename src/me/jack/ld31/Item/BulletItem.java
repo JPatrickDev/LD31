@@ -9,7 +9,7 @@ import uk.co.jdpatrick.JEngine.Image.ImageUtil;
 public class BulletItem extends Item{
 
     public BulletItem() {
-        super("Bullet", ImageUtil.loadImage("/res/bullet.png"));
+        super("Bullet", ImageUtil.loadImage("res/bullet.png"));
     }
 
 }

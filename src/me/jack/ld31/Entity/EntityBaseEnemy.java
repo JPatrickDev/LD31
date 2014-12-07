@@ -40,7 +40,7 @@ public class EntityBaseEnemy extends Mob {
     @Override
     public void init() {
         if (i == null) {
-            i = ImageUtil.loadImage("/res/snowman.png");
+            i = ImageUtil.loadImage("res/snowman.png");
             i.setCenterOfRotation(17, 5);
         }
     }
@@ -51,7 +51,7 @@ public class EntityBaseEnemy extends Mob {
         if (getHealth() <= 0) {
             level.getPlayer().kills++;
             level.removeEntity(this);
-            if (Math.random() > 0.75){
+            if (Math.random() > 0.3 ){
                 level.entities.add(new EntityItem(x, y, new BulletItem()));
             }
 
@@ -71,7 +71,7 @@ public class EntityBaseEnemy extends Mob {
 
 
         }
-        if (new Random(System.nanoTime()).nextInt(500) == 0 && canShoot) {
+        if (new Random(System.nanoTime()).nextInt(1000) == 0 && canShoot) {
             EntityProjectile snowBall = new EntityProjectile(x, y, level.getPlayer().getX(), level.getPlayer().getY(), new SnowballProjectile());
             level.addEntity(snowBall);
         }

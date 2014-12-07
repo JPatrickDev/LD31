@@ -19,7 +19,7 @@ public abstract class TimeBasedPowerup extends Powerup{
     public TimeBasedPowerup(Image icon,long lifeSpan) {
         super(icon);
         this.lifeSpan = lifeSpan;
-        if(effects == null)effects = new SpriteSheet(ImageUtil.loadImage("/res/powerupeffects.png"),32,32);
+        if(effects == null)effects = new SpriteSheet(ImageUtil.loadImage("res/powerupeffects.png"),32,32);
     }
 
     public abstract void update(Level level);

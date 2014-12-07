@@ -5,6 +5,7 @@ import me.jack.ld31.Entity.EntityBaseEnemy;
 import me.jack.ld31.Entity.EntityPlayer;
 import me.jack.ld31.Entity.Mob;
 import me.jack.ld31.Projectile.BulletProjectile;
+import me.jack.ld31.States.InGameState;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -14,6 +15,7 @@ import uk.co.jdpatrick.JEngine.Particle.ParticleSystem;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -59,17 +61,18 @@ public class Level {
 
     }
 
+    public long timeTillNextRound = 5000;
     public void initLevel(){
         this.tiles = new int[width][height];
         populateWalls();
         player = new EntityPlayer(5*TILE_SIZE,5*TILE_SIZE);
 
         //TODO - Merge all 16x16 spritesheets?
-        sprites = new SpriteSheet(ImageUtil.loadImage("/res/sprites.png"),8,8);
-        powerups = new SpriteSheet(ImageUtil.loadImage("/res/powerups.png"),16,16);
-        tileImages = new SpriteSheet(ImageUtil.loadImage("/res/tiles.png"),16,16);
-        weapons = new SpriteSheet(ImageUtil.loadImage("/res/weapons.png"),16,16);
-        upgrades = new SpriteSheet(ImageUtil.loadImage("/res/upgrades.png"),16,16);
+        sprites = new SpriteSheet(ImageUtil.loadImage("res/sprites.png"),8,8);
+        powerups = new SpriteSheet(ImageUtil.loadImage("res/powerups.png"),16,16);
+        tileImages = new SpriteSheet(ImageUtil.loadImage("res/tiles.png"),16,16);
+        weapons = new SpriteSheet(ImageUtil.loadImage("res/weapons.png"),16,16);
+        upgrades = new SpriteSheet(ImageUtil.loadImage("res/upgrades.png"),16,16);
 
 
 
@@ -86,7 +89,14 @@ public class Level {
         spawners.add(new MobSpawner(width - 4,height-4));
         round = 1;
 
-        for(MobSpawner spawner : spawners)spawner.spawnWave(this);
+        for(int x = 0;x!= width;x++){
+            for(int y =0 ;y!= height;y++){
+                if(new Random().nextInt(5) == 0 && tiles[x][y] == 0){
+                    tiles[x][y] = 2;
+                }
+            }
+        }
+
 
         BulletProjectile.i = Level.sprites.getSprite(0,0);
 
@@ -117,7 +127,7 @@ public class Level {
     }
 
     boolean roundInProgress = false;
-    public void update(GameContainer gc){
+    public void update(GameContainer gc, int delta){
 
         if(entities.size() > 0)roundInProgress = true;
         for(Entity e : entities)e.update(this);
@@ -125,6 +135,18 @@ public class Level {
 
         for(MobSpawner spawner: spawners)
             spawner.update(this);
+
+        timeTillNextRound -=delta;
+        if(timeTillNextRound <= 0) {
+            for (MobSpawner spawner : spawners) {
+
+                spawner.spawnWave(this);
+
+            }
+            round += 1;
+            timeTillNextRound = 5000 * round/2;
+        }
+
 
 
         player.angle = (float) -(Math.atan2(player.getX() - gc.getInput().getMouseX(), player.getY() - gc.getInput().getMouseY()) * 180 / Math.PI);
@@ -140,8 +162,10 @@ public class Level {
             for(int y= 0;y!=height;y++){
                 if(tiles[x][y] == 0)
                     g.drawImage(tileImages.getSubImage(1,0),x*TILE_SIZE,y*TILE_SIZE);
-                else
-                g.drawImage(tileImages.getSubImage(0,0),x*TILE_SIZE,y*TILE_SIZE);
+                else if(tiles[x][y] == 2){
+                    g.drawImage(tileImages.getSubImage(0,1),x*TILE_SIZE,y*TILE_SIZE);
+                }else
+                     g.drawImage(tileImages.getSubImage(0,0),x*TILE_SIZE,y*TILE_SIZE);
 
             }
         }
@@ -154,7 +178,13 @@ public class Level {
             spawner.render(g);
 
         particleSystem.render(g,0,0);
-        g.setColor(Color.red);
+        //g.setColor(Color.red);
+
+        g.setColor(Color.black);
+        if(timeTillNextRound < 5000){
+            g.drawString("Next round starts in: " +  (timeTillNextRound/1000),300,400);
+        }
+          g.setColor(Color.white);
      //   g.drawString("Ammo:" + player.ammo,100,50);
     }
 
@@ -182,6 +212,7 @@ public class Level {
                 round+=1;
                 for(MobSpawner spawner: spawners){
                     spawner.spawnWave(this);
+                    timeTillNextRound = 10000;
                 }
             }
         }
@@ -193,5 +224,10 @@ public class Level {
 
     public int getRound() {
         return round;
+    }
+
+    public void playerDead() {
+       InGameState.paused = true;
+        InGameState.gameOver = true;
     }
 }

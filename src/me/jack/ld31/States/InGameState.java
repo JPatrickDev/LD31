@@ -1,11 +1,15 @@
 package me.jack.ld31.States;
 
+import me.jack.ld31.GUI.UpgradesGUI;
 import me.jack.ld31.Level.Level;
+import me.jack.ld31.Upgrades.Upgrade;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import uk.co.jdpatrick.JEngine.Image.ImageUtil;
+import uk.co.jdpatrick.JEngine.JEngine;
 import uk.co.jdpatrick.JEngine.JEngineGameState;
 
 /**
@@ -52,18 +56,49 @@ public class InGameState extends BasicGameState{
         level = new Level(50,37);
         level.initLevel();
         weaponIcon = ImageUtil.loadImage("/res/weapon-gui.png").getScaledCopy(2f);
+        UpgradesGUI.init(level);
     }
 
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
         level.render(graphics);
-        graphics.drawImage(weaponIcon,100,100);
-        graphics.drawImage(level.getPlayer().weaponWheel.get(level.getPlayer().currentWeapon).getIcon(),100,100);
+        graphics.drawImage(weaponIcon,100,560);
+        graphics.drawImage(level.getPlayer().weaponWheel.get(level.getPlayer().currentWeapon).getIcon(),100,560);
+
+        graphics.drawString("AMMO: " + level.getPlayer().weaponWheel.get(level.getPlayer().currentWeapon).getAmmo(),150,560);
+
+        graphics.drawString("Current round: " + level.getRound(),250,560);
+
+        graphics.drawString("Kills: " + level.getPlayer().kills,450,560);
+
+        //current/max * 100
+
+        float height = (level.getPlayer().getHealth()/level.getPlayer().maxHealth) * JEngine.getHeight();
+       graphics.fillRect(0,0,8,height);
+
+        if(paused){
+            graphics.setColor(Color.black);
+            graphics.drawString("GAME PAUSED",400,300);
+        }
+
+        UpgradesGUI.render(graphics);
+
+
     }
 
     @Override
+    public void keyPressed(int key, char c) {
+        super.keyPressed(key, c);
+        if(key == Keyboard.KEY_ESCAPE) paused = !paused;
+
+        if(key == Keyboard.KEY_U) UpgradesGUI.open(level.getPlayer().weaponWheel.get(0));
+    }
+
+    public boolean paused = false;
+    @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
+        if(paused)return;
          level.update(gameContainer);
         if(Mouse.isButtonDown(0)){
             Input input = gameContainer.getInput();

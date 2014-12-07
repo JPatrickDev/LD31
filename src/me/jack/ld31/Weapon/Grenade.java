@@ -10,13 +10,15 @@ import me.jack.ld31.Projectile.BulletProjectile;
  */
 public class Grenade extends Weapon{
 
-    long shotDelayMilis = 25;
+
     long lastShot = 0;
 
-    public int ammo = 500;
+
 
     public Grenade() {
         super(Level.weapons.getSprite(1,0));
+        ammo = 5;
+        shotDelayMilis = 100;
     }
 
     @Override

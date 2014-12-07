@@ -3,6 +3,7 @@ package me.jack.ld31.Entity;
 import me.jack.ld31.Level.Level;
 import me.jack.ld31.Projectile.BulletProjectile;
 import me.jack.ld31.Weapon.Grenade;
+import me.jack.ld31.Weapon.Missile;
 import me.jack.ld31.Weapon.Pistol;
 import me.jack.ld31.Weapon.Weapon;
 import org.lwjgl.input.Keyboard;
@@ -21,8 +22,13 @@ import java.util.ArrayList;
 public class EntityPlayer extends Mob{
 
     private static Image i;
+    public float maxHealth;
+
+    public int kills = 0;
+
     public EntityPlayer(float x, float y) {
         super(x, y,50);
+        this.maxHealth = getHealth();
     }
 
     public ArrayList<Weapon> weaponWheel = new ArrayList<Weapon>();
@@ -36,12 +42,13 @@ public class EntityPlayer extends Mob{
 
         weaponWheel.add(new Pistol());
         weaponWheel.add(new Grenade());
+        weaponWheel.add(new Missile());
     }
 
 
     float moveSpeed = 4f;
 
-    public int currentWeapon = 1;
+    public int currentWeapon = 0;
 
 
     public float angle;
@@ -64,7 +71,7 @@ public class EntityPlayer extends Mob{
             newX+=moveSpeed;
         }
 
-        Rectangle newPlayer = new Rectangle((int)newX,(int)newY,8,8);
+        Rectangle newPlayer = new Rectangle((int)newX,(int)newY,16,16);
 
 
         boolean canMove = true;
@@ -75,11 +82,13 @@ public class EntityPlayer extends Mob{
         }
 
         for(Entity e : level.entities){
-            Rectangle eRectangle = new Rectangle((int)e.getX(),(int)e.getY(),16,16);
-            if(eRectangle.intersects(newPlayer) || newPlayer.intersects(eRectangle)){
-                e.onPlayerIntersect(level);
-            }
+          if(e instanceof Mob){
+              Rectangle mobRectangle = new Rectangle((int)e.getX(),(int)e.getY(),16,16);
+              if(mobRectangle.intersects(newPlayer))canMove = false;
+          }
         }
+
+
         if(canMove){
             x = newX;
             y = newY;

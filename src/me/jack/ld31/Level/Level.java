@@ -22,6 +22,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Level {
 
 
+
     private int[][] tiles;
     private int width;
     private int height;
@@ -50,7 +51,7 @@ public class Level {
     public static SpriteSheet powerups;
     public static SpriteSheet tileImages;
     public static SpriteSheet weapons;
-
+    public static SpriteSheet upgrades;
 
     public Level(int width, int height){
         this.width = width;
@@ -63,10 +64,15 @@ public class Level {
         populateWalls();
         player = new EntityPlayer(5*TILE_SIZE,5*TILE_SIZE);
 
+        //TODO - Merge all 16x16 spritesheets?
         sprites = new SpriteSheet(ImageUtil.loadImage("/res/sprites.png"),8,8);
         powerups = new SpriteSheet(ImageUtil.loadImage("/res/powerups.png"),16,16);
         tileImages = new SpriteSheet(ImageUtil.loadImage("/res/tiles.png"),16,16);
         weapons = new SpriteSheet(ImageUtil.loadImage("/res/weapons.png"),16,16);
+        upgrades = new SpriteSheet(ImageUtil.loadImage("/res/upgrades.png"),16,16);
+
+
+
         gameWorld = new Rectangle(1*TILE_SIZE,1*TILE_SIZE,(width * TILE_SIZE)-2*TILE_SIZE,(height * TILE_SIZE)-2 *TILE_SIZE);
         player.init();
         entities.clear();

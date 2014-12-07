@@ -56,14 +56,14 @@ public class MobSpawner {
         for(int i = 0;i!= level.getRound() * 3;i++){
             int spawnX = minX + r.nextInt(maxX - minX + 1);
             int spawnY = minY + r.nextInt(maxY - minY + 1);
-            mobQueue.add(new EntityBaseEnemy(spawnX, spawnY, level.getRound() >= 5));
+            mobQueue.add(new EntityBaseEnemy(spawnX, spawnY, level.getRound() >= 5,level.getRound()));
         }
     }
 
     public void render(Graphics g){
-        g.setColor(Color.red);
-        g.fillRect(x*Level.TILE_SIZE,y*Level.TILE_SIZE,Level.TILE_SIZE*2,Level.TILE_SIZE*2);
-        g.setColor(Color.white);
+       // g.setColor(Color.red);
+       // g.fillRect(x*Level.TILE_SIZE,y*Level.TILE_SIZE,Level.TILE_SIZE*2,Level.TILE_SIZE*2);
+       // g.setColor(Color.white);
     }
 
 }

@@ -11,12 +11,12 @@ import org.newdawn.slick.Graphics;
 public class EntityProjectile  extends Entity{
 
 
-    private float vX;
-    private float vY;
+    protected float vX;
+    protected float vY;
 
-    private float life = 1f;
+    protected float life = 1f;
 
-    private Projectile projectile;
+    protected Projectile projectile;
     public EntityProjectile(float x, float y, float targetX, float targetY, Projectile projectile) {
         super(x, y);
         float xSpeed = (targetX - x);
@@ -29,6 +29,7 @@ public class EntityProjectile  extends Entity{
         vY = ySpeed;
 
         this.projectile = projectile;
+        this.life = projectile.life;
 
 
     }

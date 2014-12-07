@@ -16,8 +16,24 @@ Shooting:
     - Snowmen can shoot snowballs/
         - Needs improving
             - player needs to be damaged
-            - Longer life for the snowball
-            - NEeds to be dodgeable
+            - Longer life for the snowball/
+            - Needs to be dodgeable/
+    - "Heat-seeking" missiles
+        - Locks on to the closest snowman - Random one?/
+        - Can be upgraded to fire three at a time
+        - Add a smoke effect out the back?
+        - Splash damage
+
+
+ Weapon upgrades:
+    - Multi-shot
+        - Missile
+        - Pistol
+    - Decreased shoot delay
+    - Increased damage
+    - Increased splash damage for missile
+        - Splash damage itself as an upgrade?
+
 
 
 
@@ -36,10 +52,14 @@ Shooting:
 
 Waves need adding
     - Wave lasts until you kill all the enemies that spawned at the start/
+        - Change to time based
+            - Time lengths as the rounds get harder
     - gets harder as the game goes on/
-    - Later rounds spawn harder enemies
+    - Later rounds spawn harder enemies/
         - After round 5 some snowmen can shoot snowballs/
 
 Bugs:
 
     -Item hitboxes seem to be a little off
+    - Check if target is null for missile/
+    - Check if target has died, if so, explode on the spot

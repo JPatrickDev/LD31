@@ -20,15 +20,17 @@ public class ExplosionParticle extends Particle {
      * @param y Starting Y coordinate
      * @param splashRadius
      */
-    public ExplosionParticle(int x, int y, int splashRadius) {
+    public ExplosionParticle(int x, int y, float splashRadius) {
         super(x, y);
         xx = x;
         yy = y;
+
 
         xa = random.nextGaussian() * splashRadius;
         ya = random.nextGaussian() * splashRadius;
 
         particle = new Rectangle((float) xx, (float) yy, 3, 3);
+
     }
 
     /**

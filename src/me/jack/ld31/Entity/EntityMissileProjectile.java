@@ -2,6 +2,7 @@ package me.jack.ld31.Entity;
 
 import me.jack.ld31.Level.Level;
 import me.jack.ld31.Particle.ExplosionParticle;
+import me.jack.ld31.Projectile.MissileProjectile;
 import me.jack.ld31.Projectile.Projectile;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -11,22 +12,32 @@ import org.newdawn.slick.Graphics;
  */
 public class EntityMissileProjectile extends EntityProjectile{
     private Mob target;
-    public EntityMissileProjectile(float x, float y,Projectile projectile,Mob target) {
+    private boolean splash;
+
+    private float splashRadius = 0.5f;
+
+    public EntityMissileProjectile(float x, float y,Projectile projectile,Mob target,boolean splash, float splashRadius) {
         super(x, y,0,0, projectile);
         this.target = target;
-
+        this.splash = splash;
+        this.splashRadius = splashRadius;
     }
 
 
     boolean firstTick = true;
 
     float angle;
+
+
+
     @Override
     public void update(Level level) {
         if(target == null){
             level.entities.remove(this);
-            for(int i =0;i!= 50;i++){
-                level.particleSystem.addParticle(new ExplosionParticle((int)x,(int)y,5));
+            if(splash) {
+                for (int i = 0; i != splashRadius * 100; i++) {
+                    level.particleSystem.addParticle(new ExplosionParticle((int) x, (int) y, splashRadius));
+                }
             }
             return;
         }
@@ -55,9 +66,12 @@ public class EntityMissileProjectile extends EntityProjectile{
         angle = (float) -(Math.atan2(this.x - target.getX(), this.y - target.getY()) * 180 / Math.PI);
 
         if(target.getHealth() <= 0){
-            for(int i =0;i!= 200;i++){
-                level.particleSystem.addParticle(new ExplosionParticle((int)x,(int)y,1));
+        if(splash) {
+            for (int i = 0; i != splashRadius * 100; i++) {
+
+                level.particleSystem.addParticle(new ExplosionParticle((int) x, (int) y, splashRadius));
             }
+        }
            level.removeEntity(this);
         }
 
@@ -67,8 +81,9 @@ public class EntityMissileProjectile extends EntityProjectile{
     public void notifyHitEntity(Entity hit,Level level){
         projectile.onHitEntity(level);
         level.removeEntity(this);
-        for(int i =0;i!= 200;i++){
-            level.particleSystem.addParticle(new ExplosionParticle((int)x,(int)y,1));
+        if(!splash)return;
+        for(int i =0;i!= splashRadius * 100;i++){
+            level.particleSystem.addParticle(new ExplosionParticle((int)x,(int)y,splashRadius));
         }
     }
 

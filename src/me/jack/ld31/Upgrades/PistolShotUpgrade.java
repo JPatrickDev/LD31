@@ -26,6 +26,7 @@ public class PistolShotUpgrade extends Upgrade{
 
     @Override
     public Upgrade nextUpgrade() {
+        if(i > 4)return null;
         return new PistolShotUpgrade(icon,"Multi-Shot " + (i+1),"Further increase the fire rate of the pistol",cost+50,newShots+1,i+1);
     }
 }

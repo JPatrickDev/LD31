@@ -19,7 +19,9 @@ public class Missile extends Weapon{
 
     long lastShot = 0;
 
+    public boolean splash = false;
 
+    public float splashRadius = 0.5f;
     public Missile() {
         super(Level.weapons.getSprite(2,0));
         ammo = 90;
@@ -48,7 +50,7 @@ public class Missile extends Weapon{
     }
 
     private void shoot(Level level){
-        EntityMissileProjectile bullet = new EntityMissileProjectile(level.getPlayer().getX(),level.getPlayer().getY(),new MissileProjectile(),getRandomMob(level));
+        EntityMissileProjectile bullet = new EntityMissileProjectile(level.getPlayer().getX(),level.getPlayer().getY(),new MissileProjectile(),getRandomMob(level),splash,splashRadius);
         level.addEntity(bullet);
         bullet.getProjectile().onSpawn(level);
         ammo-=1;

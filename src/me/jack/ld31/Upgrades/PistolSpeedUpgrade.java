@@ -13,11 +13,11 @@ public class PistolSpeedUpgrade extends Upgrade{
     public PistolSpeedUpgrade(Image icon, String name,String description, int cost,int i) {
         super(icon,name, description, cost);
         if(i == 2){
-            newSpeed = 50;
+            newSpeed = 75;
         }else if(i == 3){
-            newSpeed = 30;
+            newSpeed = 60;
         }else{
-            newSpeed = 25;
+            newSpeed = 50;
         }
         this.i = i;
     }
@@ -29,6 +29,7 @@ public class PistolSpeedUpgrade extends Upgrade{
 
     @Override
     public Upgrade nextUpgrade() {
+        if(i > 2) return null;
         return new PistolSpeedUpgrade(icon,"Pistol speed " + (i+1),"Further increase the fire rate of the pistol",cost+50,i+1);
     }
 }

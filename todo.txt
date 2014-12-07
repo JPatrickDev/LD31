@@ -65,8 +65,18 @@ Waves need adding
     - Opening the upgrades should show the upgrades for the currently active weapon/
     - Need to stay in the same order when the next one is unlocked
     - Multi-shots method of targeting to the side of the mouse need improving
-    - Next upgrade needs to return null once the max level has been reached
-        - UpgradesGUI needs to handle this
+    - Next upgrade needs to return null once the max level has been reached/
+        - UpgradesGUI needs to handle this/
+            - Needs improving - Height needs to decrease as they are removed
+
+
+    Powerups:
+        - Need to show all active powerups on screen somewhere
+        - Last limited time
+        - Some some of visual effect to show they are active
+            - Glow around the player
+            - Particles
+        - Rare drops from Snowmen
 
 
 Bugs:

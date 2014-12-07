@@ -2,6 +2,7 @@ package me.jack.ld31.GUI;
 
 import me.jack.ld31.Level.Level;
 import me.jack.ld31.States.InGameState;
+import me.jack.ld31.Upgrades.MissileSplashUpgrade;
 import me.jack.ld31.Upgrades.PistolShotUpgrade;
 import me.jack.ld31.Upgrades.PistolSpeedUpgrade;
 import me.jack.ld31.Upgrades.Upgrade;
@@ -23,9 +24,15 @@ public class UpgradesGUI {
     public static void init(Level level) {
         ArrayList<Upgrade> pistolUpgrades = new ArrayList<Upgrade>();
         pistolUpgrades.add(new PistolSpeedUpgrade(Level.upgrades.getSprite(0, 0), "Rate of fire 1","Increases the rate of fire\nof the pistol", 10,1));
-
         pistolUpgrades.add(new PistolShotUpgrade(Level.upgrades.getSprite(0, 0), "Mutli-shot 1", "Increases the rate of fire\nof the pistol", 200, 2,1));
         upgrades.put(level.getPlayer().weaponWheel.get(0), pistolUpgrades);
+
+
+        ArrayList<Upgrade> missileUpgrades = new ArrayList<Upgrade>();
+        missileUpgrades.add(new MissileSplashUpgrade(Level.weapons.getSprite(2,0),"Splash damage:  " + (1),"Activate splash damage for the missile",150,0.8f,1));
+
+        upgrades.put(level.getPlayer().weaponWheel.get(2), missileUpgrades);
+
     }
 
     private static boolean open = false;
@@ -54,7 +61,7 @@ public class UpgradesGUI {
         g.fillRect(x,y,width,height);
         ArrayList<Upgrade> upgradesToShow = upgrades.get(displaying);
 
-        if(upgradesToShow == null){
+        if(upgradesToShow == null || upgradesToShow.size() == 0){
         g.setColor(Color.white);
             g.drawString("No upgrades available",x,y);
             return;
@@ -71,7 +78,7 @@ public class UpgradesGUI {
             g.drawString("- Cost: " + upgrade.getCost(),x+150,yy);
             g.drawString(upgrade.getDescription(),x,yy+16);
 
-            if(upgrade.getCost() > InGameState.level.getPlayer().kills){
+           if(upgrade.getCost() > InGameState.level.getPlayer().kills){
                   Color grayedOut = new Color(255,0,0,58);
                 g.setColor(grayedOut);
                 g.fillRect(x,yy,width,heightPerUpgrade);
@@ -90,6 +97,7 @@ public class UpgradesGUI {
         int pos = (mouseY - y)/64;
         if(pos > upgrades.get(displaying).size())return;
 
+        if(upgrades.get(displaying).size() == 0)return;
         Upgrade i = upgrades.get(displaying).get(pos);
 
         if(i.getCost() <=  level.getPlayer().kills) {
@@ -100,10 +108,11 @@ public class UpgradesGUI {
             height = upgrades.get(displaying).size() * 64;
             y = 300-(height/2);
             Upgrade next = i.nextUpgrade();
+        if(next != null)
             upgrades.get(displaying).add(next);
                     upgrades.get(displaying).remove(i);
        }else{
-            System.out.println("Can't afford");//TODO add proper feedback
+           System.out.println("Can't afford");//TODO add proper feedback
         }
     }
 

@@ -4,7 +4,10 @@ import me.jack.ld31.Item.BulletItem;
 import me.jack.ld31.Level.Level;
 import me.jack.ld31.Particle.ExplosionParticle;
 import me.jack.ld31.Particle.SmallBloodParticle;
+import me.jack.ld31.Powerups.HealthBoostPowerup;
 import me.jack.ld31.Powerups.IncreaseMaxHealth;
+import me.jack.ld31.Powerups.SpeedBoostPowerup;
+import me.jack.ld31.Powerups.TimeBasedPowerup;
 import me.jack.ld31.Projectile.SnowballProjectile;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -55,6 +58,14 @@ public class EntityBaseEnemy extends Mob {
             if(Math.random() > 0.8)
                 level.entities.add(new EntityPowerup(x, y, new IncreaseMaxHealth()));
 
+            if(Math.random() > 0.4){
+                level.entities.add(new EntityPowerup(x, y, new SpeedBoostPowerup(Level.powerups.getSprite(1,0),5000) {
+                }));
+            }
+            if(Math.random() > 0.4){
+                level.entities.add(new EntityPowerup(x, y, new HealthBoostPowerup(Level.powerups.getSprite(0,0),5000) {
+                }));
+            }
             for (int i = 0; i != 100; i++)
                 level.particleSystem.addParticle(new SmallBloodParticle((int) x, (int) y));
 

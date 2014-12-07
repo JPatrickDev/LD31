@@ -1,11 +1,14 @@
 package me.jack.ld31.Entity;
 
 import me.jack.ld31.Level.Level;
+import me.jack.ld31.Powerups.SpeedBoostPowerup;
+import me.jack.ld31.Powerups.TimeBasedPowerup;
 import me.jack.ld31.Projectile.BulletProjectile;
 import me.jack.ld31.Weapon.Grenade;
 import me.jack.ld31.Weapon.Missile;
 import me.jack.ld31.Weapon.Pistol;
 import me.jack.ld31.Weapon.Weapon;
+import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
@@ -15,6 +18,7 @@ import uk.co.jdpatrick.JEngine.Image.ImageUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by Jack on 06/12/2014.
@@ -25,6 +29,9 @@ public class EntityPlayer extends Mob{
     public float maxHealth;
 
     public int kills = 0;
+
+
+    private CopyOnWriteArrayList<TimeBasedPowerup> powerups = new CopyOnWriteArrayList<TimeBasedPowerup>();
 
     public EntityPlayer(float x, float y) {
         super(x, y,50);
@@ -43,18 +50,23 @@ public class EntityPlayer extends Mob{
         weaponWheel.add(new Pistol());
         weaponWheel.add(new Grenade());
         weaponWheel.add(new Missile());
+
     }
 
 
-    float moveSpeed = 4f;
+    public float moveSpeed = 4f;
 
     public int currentWeapon = 0;
 
 
     public float angle;
+
     @Override
     public void update(Level level) {
 
+
+
+        System.out.println(moveSpeed);
         float newX = x;
         float newY = y;
 
@@ -94,6 +106,9 @@ public class EntityPlayer extends Mob{
             y = newY;
         }
 
+        for(TimeBasedPowerup powerup:powerups){
+            powerup.update(level);
+        }
 
 
     }
@@ -109,10 +124,22 @@ public class EntityPlayer extends Mob{
     public void render(Graphics g) {
         i.setRotation(angle);
       g.drawImage(i,x,y);
+
+        for(TimeBasedPowerup powerup:powerups){
+            powerup.renderEffect(this, g, angle);
+        }
     }
 
     @Override
     public void onPlayerIntersect(Level level) {
 
+    }
+
+    public void removePowerup(TimeBasedPowerup powerup) {
+        powerups.remove(powerup);
+    }
+
+    public void addPowerup(TimeBasedPowerup powerup) {
+        powerups.add(powerup);
     }
 }

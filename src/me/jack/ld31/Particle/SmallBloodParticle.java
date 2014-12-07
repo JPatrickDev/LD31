@@ -68,11 +68,11 @@ public class SmallBloodParticle  extends Particle {
     /**
      * The start colour of the gradient
      */
-    Color start = Color.decode("#FF0000");
+    Color start = Color.decode("#404040");
     /**
      * The end colour of the gradient
      */
-    Color end = Color.decode("#360303");
+    Color end = Color.decode("#A0A0A0");
 
     /**
      * Draw the particle

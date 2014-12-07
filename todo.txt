@@ -68,15 +68,23 @@ Waves need adding
     - Next upgrade needs to return null once the max level has been reached/
         - UpgradesGUI needs to handle this/
             - Needs improving - Height needs to decrease as they are removed
+    - Need upgrades for Grenade and more upgrades for the missile
+        - Missile
+            - Movement speed
+            - Missile splits into two smaller ones before impact?
+            -Increased damage
+
+     - make missiles continue in a straight line if the target dies before it hits
 
 
     Powerups:
         - Need to show all active powerups on screen somewhere
-        - Last limited time
+        - Last limited time/
         - Some some of visual effect to show they are active
-            - Glow around the player
+            - Glow around the player/
             - Particles
         - Rare drops from Snowmen
+        - Health powerup is a bit broken
 
 
 Bugs:

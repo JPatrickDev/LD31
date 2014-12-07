@@ -10,7 +10,7 @@ public class MissileProjectile  extends Projectile{
 
 
     public MissileProjectile() {
-        super(15f,25,"Missile", Level.weapons.getSprite(2,0),1f);
+        super(15f,20,"Missile", Level.weapons.getSprite(2,0),1f);
 
     }
 

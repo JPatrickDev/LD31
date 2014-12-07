@@ -37,4 +37,6 @@ public abstract class Upgrade {
     public String getName() {
         return name;
     }
+
+    public abstract Upgrade nextUpgrade();
 }

@@ -58,8 +58,19 @@ Waves need adding
     - Later rounds spawn harder enemies/
         - After round 5 some snowmen can shoot snowballs/
 
+  Upgrades
+    - Need to indicate they can't afford the upgrade/
+    - Upgrades need to be locked until the previous one has be purchased/
+    - Opening the upgrades needs to pause the game/
+    - Opening the upgrades should show the upgrades for the currently active weapon/
+    - Need to stay in the same order when the next one is unlocked
+    - Multi-shots method of targeting to the side of the mouse need improving
+    - Next upgrade needs to return null once the max level has been reached
+        - UpgradesGUI needs to handle this
+
+
 Bugs:
 
     -Item hitboxes seem to be a little off
     - Check if target is null for missile/
-    - Check if target has died, if so, explode on the spot
+    - Check if target has died, if so, explode on the spot/

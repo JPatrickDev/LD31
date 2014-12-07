@@ -18,8 +18,8 @@ import uk.co.jdpatrick.JEngine.JEngineGameState;
 public class InGameState extends BasicGameState{
 
 
+    public static Level level;
 
-    private Level level;
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         gameContainer.setShowFPS(false);
@@ -61,6 +61,12 @@ public class InGameState extends BasicGameState{
 
 
     @Override
+    public void mouseClicked(int button, int x, int y, int clickCount) {
+        super.mouseClicked(button, x, y, clickCount);
+        UpgradesGUI.mouseClick(x,y,level);
+    }
+
+    @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
         level.render(graphics);
         graphics.drawImage(weaponIcon,100,560);
@@ -77,10 +83,12 @@ public class InGameState extends BasicGameState{
         float height = (level.getPlayer().getHealth()/level.getPlayer().maxHealth) * JEngine.getHeight();
        graphics.fillRect(0,0,8,height);
 
-        if(paused){
+     /*   if(paused){
             graphics.setColor(Color.black);
             graphics.drawString("GAME PAUSED",400,300);
         }
+
+      */
 
         UpgradesGUI.render(graphics);
 
@@ -92,7 +100,16 @@ public class InGameState extends BasicGameState{
         super.keyPressed(key, c);
         if(key == Keyboard.KEY_ESCAPE) paused = !paused;
 
-        if(key == Keyboard.KEY_U) UpgradesGUI.open(level.getPlayer().weaponWheel.get(0));
+        if(key == Keyboard.KEY_U){
+            if(UpgradesGUI.isOpen()){
+            UpgradesGUI.close();
+                paused = false;
+            }else{
+                UpgradesGUI.open(level.getPlayer().weaponWheel.get(level.getPlayer().currentWeapon));
+                paused = true;
+            }
+
+        }
     }
 
     public boolean paused = false;

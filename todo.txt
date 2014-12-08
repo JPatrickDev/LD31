@@ -11,28 +11,28 @@ Shooting:
     - Delay between shots/
         - Configurable (Powerups)
     - Ammo/
-    - Different types of ammo
+    - Different types of ammo/
     - Bullets need a lifespan/
     - Snowmen can shoot snowballs/
-        - Needs improving
-            - player needs to be damaged
+        - Needs improving/
+            - player needs to be damaged/
             - Longer life for the snowball/
             - Needs to be dodgeable/
     - "Heat-seeking" missiles
         - Locks on to the closest snowman - Random one?/
         - Can be upgraded to fire three at a time
         - Add a smoke effect out the back?
-        - Splash damage
+        - Splash damage/
 
 
  Weapon upgrades:
     - Multi-shot
         - Missile
-        - Pistol
-    - Decreased shoot delay
+        - Pistol/
+    - Decreased shoot delay/
     - Increased damage
-    - Increased splash damage for missile
-        - Splash damage itself as an upgrade?
+    - Increased splash damage for missile/
+        - Splash damage itself as an upgrade?/
 
 
 
@@ -52,8 +52,8 @@ Shooting:
 
 Waves need adding
     - Wave lasts until you kill all the enemies that spawned at the start/
-        - Change to time based
-            - Time lengths as the rounds get harder
+        - Change to time based/
+            - Time lengths as the rounds get harder/
     - gets harder as the game goes on/
     - Later rounds spawn harder enemies/
         - After round 5 some snowmen can shoot snowballs/
@@ -70,11 +70,10 @@ Waves need adding
             - Needs improving - Height needs to decrease as they are removed
     - Need upgrades for Grenade and more upgrades for the missile
         - Missile
-            - Movement speed
-            - Missile splits into two smaller ones before impact?
-            -Increased damage
+            - Missile splits into two smaller ones before impact?/
 
-     - make missiles continue in a straight line if the target dies before it hits
+
+
 
 
     Powerups:
@@ -83,12 +82,12 @@ Waves need adding
         - Some some of visual effect to show they are active
             - Glow around the player/
             - Particles
-        - Rare drops from Snowmen
+        - Rare drops from Snowmen/
         - Health powerup is a bit broken
 
 
 Bugs:
 
-    -Item hitboxes seem to be a little off
+    -Item hitboxes seem to be a little off/
     - Check if target is null for missile/
     - Check if target has died, if so, explode on the spot/

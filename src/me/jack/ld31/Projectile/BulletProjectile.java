@@ -10,8 +10,7 @@ public class BulletProjectile extends Projectile{
 
 
     public BulletProjectile() {
-        super(5f,10,"Bullet",Level.sprites.getSprite(0,0),1f);
-
+        super(5f,8,"Bullet",Level.sprites.getSprite(0,0),1f);
     }
 
 

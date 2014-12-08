@@ -1,6 +1,7 @@
 package me.jack.ld31;
 
 import me.jack.ld31.States.InGameState;
+import me.jack.ld31.States.SplashScreenState;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
@@ -17,6 +18,8 @@ public class LD31 extends StateBasedGame{
 
     @Override
     public void initStatesList(GameContainer gameContainer) throws SlickException {
+
+        this.addState(new SplashScreenState());
         this.addState(new InGameState());
     }
 }

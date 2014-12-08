@@ -7,6 +7,7 @@ import me.jack.ld31.Entity.Mob;
 import me.jack.ld31.Level.Level;
 import me.jack.ld31.Projectile.BulletProjectile;
 import me.jack.ld31.Projectile.MissileProjectile;
+import uk.co.jdpatrick.JEngine.Sound.SoundEngine;
 
 import java.util.Random;
 
@@ -22,10 +23,12 @@ public class Missile extends Weapon{
     public boolean splash = false;
 
     public float splashRadius = 0.5f;
+    public boolean split = false;
+
     public Missile() {
         super(Level.weapons.getSprite(2,0));
-        ammo = 90;
-        shotDelayMilis = 50;
+        ammo = 10;
+        shotDelayMilis = 200;
 
     }
 
@@ -34,6 +37,8 @@ public class Missile extends Weapon{
         if(lastShot ==0 && ammo > 0) {
             lastShot = System.currentTimeMillis();
             shoot(level);
+            if(split)
+                shoot(level);
             return;
         }
 
@@ -41,13 +46,17 @@ public class Missile extends Weapon{
 
         if(currentTime - lastShot >=shotDelayMilis && ammo > 0)  {
             shoot(level);
+            if(split)
+                shoot(level);
             lastShot = System.currentTimeMillis();
         }
     }
 
     private void shoot(Level level){
+
         Mob rand = getRandomMob(level);
         if(rand == null)return;
+        SoundEngine.getInstance().play("launch");
         EntityMissileProjectile bullet = new EntityMissileProjectile(level.getPlayer().getX(),level.getPlayer().getY(),new MissileProjectile(),rand,splash,splashRadius);
         level.addEntity(bullet);
         bullet.getProjectile().onSpawn(level);

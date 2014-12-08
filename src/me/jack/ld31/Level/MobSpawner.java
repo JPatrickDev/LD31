@@ -1,5 +1,6 @@
 package me.jack.ld31.Level;
 
+import me.jack.ld31.Entity.BabySnowman;
 import me.jack.ld31.Entity.Entity;
 import me.jack.ld31.Entity.EntityBaseEnemy;
 import org.newdawn.slick.Color;
@@ -56,7 +57,7 @@ public class MobSpawner {
         for(int i = 0;i!= level.getRound() * 3;i++){
             int spawnX = minX + r.nextInt(maxX - minX + 1);
             int spawnY = minY + r.nextInt(maxY - minY + 1);
-            mobQueue.add(new EntityBaseEnemy(spawnX, spawnY, true,level.getRound()));
+            mobQueue.add(new EntityBaseEnemy(spawnX, spawnY, true, level.getRound()));
         }
     }
 

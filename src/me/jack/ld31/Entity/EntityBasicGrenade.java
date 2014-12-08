@@ -6,6 +6,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.*;
 import uk.co.jdpatrick.JEngine.Particle.BloodParticle;
+import uk.co.jdpatrick.JEngine.Sound.SoundEngine;
 
 import java.awt.*;
 import java.awt.Rectangle;
@@ -18,7 +19,8 @@ public class EntityBasicGrenade extends EntityGrenade{
     float vX;
     float vY;
     private Rectangle stopAt;
-    public EntityBasicGrenade(float x, float y, int mx,int my) {
+
+    public EntityBasicGrenade(float x, float y, int mx,int my,float splashRadius) {
         super(x, y, 1, 0.5f, Level.sprites.getSprite(2,0), 10);
         stopAt = new Rectangle(mx,my,8,8);
         this.spawn = System.currentTimeMillis();
@@ -30,11 +32,11 @@ public class EntityBasicGrenade extends EntityGrenade{
         ySpeed *= factor;
         vX = xSpeed;
         vY = ySpeed;
-
+        this.splashRadius = splashRadius;
     }
 
 
-    long fuse = 2000;
+    long fuse = 1000;
     long spawn = -1;
     @Override
     public void init() {
@@ -45,6 +47,7 @@ public class EntityBasicGrenade extends EntityGrenade{
     public void update(Level level) {
             if(System.currentTimeMillis() - spawn >= fuse){
                 level.removeEntity(this);
+                SoundEngine.getInstance().play("grenade");
                 for(int i =0;i!= 50;i++){
                     level.particleSystem.addParticle(new ExplosionParticle((int)x,(int)y,splashRadius));
                 }

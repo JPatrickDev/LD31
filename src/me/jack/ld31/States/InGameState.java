@@ -9,6 +9,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import uk.co.jdpatrick.JEngine.Image.ImageUtil;
 import uk.co.jdpatrick.JEngine.JEngine;
+import uk.co.jdpatrick.JEngine.Sound.SoundEngine;
 
 /**
  * Created by Jack on 06/12/2014.
@@ -25,6 +26,15 @@ public class InGameState extends BasicGameState {
         load();
         controlTutorial = ImageUtil.loadImage("res/control-tutorial.png");
         gameOverImage = ImageUtil.loadImage("res/gameover.png");
+       SoundEngine.getInstance().addSound("pickup", new Sound("res/sound/pickup.wav"));
+
+        SoundEngine.getInstance().addSound("explosion", new Sound("res/sound/explode.wav"));
+
+        SoundEngine.getInstance().addSound("grenade", new Sound("res/sound/grenade.wav"));
+
+        SoundEngine.getInstance().addSound("shot",new Sound("res/sound/shot.wav"));
+
+        SoundEngine.getInstance().addSound("launch",new Sound("res/sound/missilelaunch.wav"));
     }
 
     int oldValue = -1;
@@ -34,6 +44,8 @@ public class InGameState extends BasicGameState {
     private boolean showingTutorial = false;
 
     private Image gameOverImage = null;
+
+
 
 
     @Override
@@ -88,6 +100,8 @@ public class InGameState extends BasicGameState {
         graphics.drawString("Current round: " + level.getRound(), 250, 560);
 
         graphics.drawString("Kills: " + level.getPlayer().kills, 450, 560);
+
+        graphics.drawString("Money: " + level.getPlayer().money, 550, 560);
         graphics.setColor(Color.white);
         //current/max * 100
 
@@ -113,6 +127,11 @@ public class InGameState extends BasicGameState {
             graphics.fillRect(0,0,800,600);
 
             graphics.drawImage(gameOverImage,0,0);
+
+            graphics.setColor(Color.black);
+            graphics.drawString("YOU KILLED: " + level.getPlayer().kills +  " snowmen",50,350);
+            graphics.drawString("And survived: " + level.getRound() +  " rounds",50,400);
+            graphics.setColor(Color.white);
         }
     }
 
@@ -148,16 +167,30 @@ public class InGameState extends BasicGameState {
     }
 
     public static boolean paused = false;
-
+    public static boolean hasFocus = false;
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-        System.out.println(level.timeTillNextRound);
+
+        if(!gameContainer.hasFocus()) {
+            hasFocus = false;
+            paused = true;
+        } else {
+
+         if(!hasFocus)
+             paused = false;
+
+            hasFocus = true;
+        }
+
         if (paused || showingTutorial) return;
         level.update(gameContainer,i);
         if (Mouse.isButtonDown(0)) {
             Input input = gameContainer.getInput();
             level.mouseClick(input.getMouseX(), input.getMouseY(), 0);
         }
+
+
+
     }
 
     @Override

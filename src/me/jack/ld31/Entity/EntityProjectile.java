@@ -79,7 +79,7 @@ public class EntityProjectile  extends Entity{
 
     @Override
     public void render(Graphics g) {
-       g.drawImage(projectile.getImage(),x,y);
+        g.drawImage(projectile.getImage(),x,y);
     }
 
     @Override

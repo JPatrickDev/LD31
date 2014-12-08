@@ -4,8 +4,11 @@ import me.jack.ld31.Level.Level;
 import me.jack.ld31.Particle.ExplosionParticle;
 import me.jack.ld31.Projectile.MissileProjectile;
 import me.jack.ld31.Projectile.Projectile;
+import me.jack.ld31.States.InGameState;
+import me.jack.ld31.Weapon.Missile;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import uk.co.jdpatrick.JEngine.Sound.SoundEngine;
 
 /**
  * Created by Jack on 06/12/2014.
@@ -39,6 +42,7 @@ public class EntityMissileProjectile extends EntityProjectile{
                     level.particleSystem.addParticle(new ExplosionParticle((int) x, (int) y, splashRadius));
                 }
             }
+            SoundEngine.getInstance().play("explosion");
             return;
         }
         if(firstTick){
@@ -48,6 +52,13 @@ public class EntityMissileProjectile extends EntityProjectile{
 
         if(x<0|| x > 800 || y < 0 || y > 600){
             level.removeEntity(this);
+        }
+
+        if(target.getHealth() <= 0){
+
+            x+=vX;
+            y+=vY;
+        return;
         }
 
 
@@ -65,15 +76,6 @@ public class EntityMissileProjectile extends EntityProjectile{
 
         angle = (float) -(Math.atan2(this.x - target.getX(), this.y - target.getY()) * 180 / Math.PI);
 
-        if(target.getHealth() <= 0){
-        if(splash) {
-            for (int i = 0; i != splashRadius * 100; i++) {
-
-                level.particleSystem.addParticle(new ExplosionParticle((int) x, (int) y, splashRadius));
-            }
-        }
-           level.removeEntity(this);
-        }
 
 
     }
@@ -81,6 +83,7 @@ public class EntityMissileProjectile extends EntityProjectile{
     public void notifyHitEntity(Entity hit,Level level){
         projectile.onHitEntity(level);
         level.removeEntity(this);
+        SoundEngine.getInstance().play("explosion");
         if(!splash)return;
         for(int i =0;i!= splashRadius * 100;i++){
             level.particleSystem.addParticle(new ExplosionParticle((int)x,(int)y,splashRadius));

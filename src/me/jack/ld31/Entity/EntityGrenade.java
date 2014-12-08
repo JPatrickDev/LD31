@@ -8,7 +8,7 @@ import org.newdawn.slick.Image;
 public abstract class EntityGrenade extends Entity{
 
 
-    protected int splashRadius;
+    protected float splashRadius;
     protected float damageDrop;
     protected Image sprite;
     protected float initialDamage;

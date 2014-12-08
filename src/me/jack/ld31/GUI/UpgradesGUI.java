@@ -2,10 +2,7 @@ package me.jack.ld31.GUI;
 
 import me.jack.ld31.Level.Level;
 import me.jack.ld31.States.InGameState;
-import me.jack.ld31.Upgrades.MissileSplashUpgrade;
-import me.jack.ld31.Upgrades.PistolShotUpgrade;
-import me.jack.ld31.Upgrades.PistolSpeedUpgrade;
-import me.jack.ld31.Upgrades.Upgrade;
+import me.jack.ld31.Upgrades.*;
 import me.jack.ld31.Weapon.Weapon;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -30,9 +27,13 @@ public class UpgradesGUI {
 
         ArrayList<Upgrade> missileUpgrades = new ArrayList<Upgrade>();
         missileUpgrades.add(new MissileSplashUpgrade(Level.weapons.getSprite(2,0),"Splash damage:  " + (1),"Activate splash damage for the missile",150,0.8f,1));
-
+        missileUpgrades.add(new MissileSplashUpgrade(Level.weapons.getSprite(2,0),"Splitter:  " + (1),"Missile splits into two at launch",150,0.8f,1));
         upgrades.put(level.getPlayer().weaponWheel.get(2), missileUpgrades);
 
+
+        ArrayList<Upgrade> grenadeUpgrades = new ArrayList<Upgrade>();
+        grenadeUpgrades.add(new GrenadeSplashUpgrade(Level.weapons.getSprite(1,0),"Splash damage:  " + (1),"Upgrade the splash damage",10,0.8f,1));
+        upgrades.put(level.getPlayer().weaponWheel.get(1), grenadeUpgrades);
     }
 
     private static boolean open = false;
@@ -50,9 +51,9 @@ public class UpgradesGUI {
         }
     }
 
-    private static int width = 256;
+    private static int width = 350;
     private static int height = 512;
-    private static int x = 400 - 128;
+    private static int x = 400 - 225;
     private static int y = 300-256;
     public static void render(Graphics g){
         if(!open){
@@ -62,7 +63,7 @@ public class UpgradesGUI {
         ArrayList<Upgrade> upgradesToShow = upgrades.get(displaying);
 
         if(upgradesToShow == null || upgradesToShow.size() == 0){
-        g.setColor(Color.white);
+        g.setColor(Color.black);
             g.drawString("No upgrades available",x,y);
             return;
         }
@@ -71,19 +72,20 @@ public class UpgradesGUI {
         for(Upgrade upgrade  :upgradesToShow){
             g.setColor(Color.gray);
             g.fillRect(x,yy,width,heightPerUpgrade);
-            g.setColor(Color.white);
+            g.setColor(Color.black);
 
             g.drawImage(upgrade.getIcon(),x,yy);
             g.drawString(upgrade.getName(),x + 18,yy);
             g.drawString("- Cost: " + upgrade.getCost(),x+150,yy);
             g.drawString(upgrade.getDescription(),x,yy+16);
 
-           if(upgrade.getCost() > InGameState.level.getPlayer().kills){
+           if(upgrade.getCost() > InGameState.level.getPlayer().getMoney()){
                   Color grayedOut = new Color(255,0,0,58);
                 g.setColor(grayedOut);
                 g.fillRect(x,yy,width,heightPerUpgrade);
                 g.setColor(Color.white);
             }
+            g.setColor(Color.white);
             yy+=heightPerUpgrade;
         }
     }
@@ -100,11 +102,11 @@ public class UpgradesGUI {
         if(upgrades.get(displaying).size() == 0)return;
         Upgrade i = upgrades.get(displaying).get(pos);
 
-        if(i.getCost() <=  level.getPlayer().kills) {
+        if(i.getCost() <=  level.getPlayer().getMoney()) {
             i.use(level);
 
 
-            level.getPlayer().kills-= i.getCost();
+            level.getPlayer().money-= i.getCost();
             height = upgrades.get(displaying).size() * 64;
             y = 300-(height/2);
             Upgrade next = i.nextUpgrade();

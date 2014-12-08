@@ -5,6 +5,7 @@ import me.jack.ld31.Level.Level;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import uk.co.jdpatrick.JEngine.Image.ImageUtil;
+import uk.co.jdpatrick.JEngine.Sound.SoundEngine;
 
 /**
  * Created by Jack on 07/12/2014.
@@ -46,5 +47,6 @@ public class SpeedBoostPowerup extends TimeBasedPowerup{
         this.startTime = System.currentTimeMillis();
         level.getPlayer().moveSpeed = 6f;
         level.getPlayer().addPowerup(this);
+        SoundEngine.getInstance().play("pickup");
     }
 }

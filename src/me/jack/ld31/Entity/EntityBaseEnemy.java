@@ -25,7 +25,7 @@ import java.util.Random;
 public class EntityBaseEnemy extends Mob {
 
 
-    float moveSpeed = 0.5f;
+    float moveSpeed = 1f;
     private static Image i;
     private boolean canShoot = false;
 
@@ -50,19 +50,20 @@ public class EntityBaseEnemy extends Mob {
 
         if (getHealth() <= 0) {
             level.getPlayer().kills++;
+            level.getPlayer().money += 10;
             level.removeEntity(this);
-            if (Math.random() > 0.3 ){
+            if (Math.random() > 0.2 ){
                 level.entities.add(new EntityItem(x, y, new BulletItem()));
             }
 
-            if(Math.random() > 0.8)
+            if(Math.random() > 0.95)
                 level.entities.add(new EntityPowerup(x, y, new IncreaseMaxHealth()));
 
-            if(Math.random() > 0.4){
+            if(Math.random() > 0.95){
                 level.entities.add(new EntityPowerup(x, y, new SpeedBoostPowerup(Level.powerups.getSprite(1,0),5000) {
                 }));
             }
-            if(Math.random() > 0.4){
+            if(Math.random() > 0.95){
                 level.entities.add(new EntityPowerup(x, y, new HealthBoostPowerup(Level.powerups.getSprite(0,0),5000) {
                 }));
             }
@@ -71,7 +72,7 @@ public class EntityBaseEnemy extends Mob {
 
 
         }
-        if (new Random(System.nanoTime()).nextInt(1000) == 0 && canShoot) {
+        if (new Random(System.nanoTime()).nextInt(400) == 0 && canShoot) {
             EntityProjectile snowBall = new EntityProjectile(x, y, level.getPlayer().getX(), level.getPlayer().getY(), new SnowballProjectile());
             level.addEntity(snowBall);
         }
@@ -149,15 +150,24 @@ public class EntityBaseEnemy extends Mob {
 
         if (lastAttack == -1) {
             lastAttack = System.currentTimeMillis();
-            level.getPlayer().removeHealth(5);
+            level.getPlayer().removeHealth((float) (5 * dmgMutli(level.getRound())));
             return;
         }
 
 
         if (System.currentTimeMillis() - lastAttack >= attackDelay) {
-            level.getPlayer().removeHealth(5);
+            level.getPlayer().removeHealth((float) (5 * dmgMutli(level.getRound())));
             lastAttack = System.currentTimeMillis();
         }
 
+    }
+
+    private double dmgMutli(int lvl){
+        if(lvl< 5)return 1;
+        if(lvl> 5 && lvl < 10)return 1.5;
+        if(lvl> 10 && lvl < 12)return 2;
+        if(lvl> 12)return 3;
+
+        return 1;
     }
 }

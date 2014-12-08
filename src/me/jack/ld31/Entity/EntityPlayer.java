@@ -29,6 +29,7 @@ public class EntityPlayer extends Mob{
     public float maxHealth;
 
     public int kills = 0;
+    public int money =0;
 
 
     private CopyOnWriteArrayList<TimeBasedPowerup> powerups = new CopyOnWriteArrayList<TimeBasedPowerup>();
@@ -48,7 +49,7 @@ public class EntityPlayer extends Mob{
         }
 
         weaponWheel.add(new Pistol());
-        weaponWheel.add(new Grenade());
+        weaponWheel.add(new Grenade(2));
         weaponWheel.add(new Missile());
 
     }
@@ -64,9 +65,6 @@ public class EntityPlayer extends Mob{
     @Override
     public void update(Level level) {
 
-
-
-        System.out.println(moveSpeed);
         float newX = x;
         float newY = y;
 
@@ -83,28 +81,47 @@ public class EntityPlayer extends Mob{
             newX+=moveSpeed;
         }
 
-        Rectangle newPlayer = new Rectangle((int)newX,(int)newY,16,16);
+        Rectangle newPlayerX = new Rectangle((int)newX,(int)y,32,32);
+        Rectangle newPlayerY = new Rectangle((int)x,(int)newY,32,32);
+
+        Rectangle newPlayer = new Rectangle((int)x,(int)newY,32,32);
 
 
-        boolean canMove = true;
+        System.out.println((newX - x) + "::" + (newY - y));
+
+        boolean canMoveX = true;
         for(Rectangle h : level.hitboxes){
-            if(newPlayer.intersects(h)){
-                canMove = false;
+            if(newPlayerX.intersects(h)){
+                canMoveX = false;
+            }
+        }
+
+        boolean canMoveY = true;
+        for(Rectangle h : level.hitboxes){
+            if(newPlayerY.intersects(h)){
+                canMoveY = false;
             }
         }
 
         for(Entity e : level.entities){
           if(e instanceof Mob){
               Rectangle mobRectangle = new Rectangle((int)e.getX(),(int)e.getY(),16,16);
-              if(mobRectangle.intersects(newPlayer))canMove = false;
+              if(mobRectangle.intersects(newPlayer)){
+                  canMoveX = false;
+                  canMoveY = false;
+              }
           }
         }
 
 
-        if(canMove){
+        if(canMoveX){
             x = newX;
-            y = newY;
+
         }
+        if(canMoveY)
+            y= newY;
+
+
 
         for(TimeBasedPowerup powerup:powerups){
             powerup.update(level);
@@ -126,7 +143,7 @@ public class EntityPlayer extends Mob{
     @Override
     public void render(Graphics g) {
         i.setRotation(angle);
-      g.drawImage(i,x,y);
+          g.drawImage(i,x,y);
 
         for(TimeBasedPowerup powerup:powerups){
             powerup.renderEffect(this, g, angle);
@@ -144,5 +161,10 @@ public class EntityPlayer extends Mob{
 
     public void addPowerup(TimeBasedPowerup powerup) {
         powerups.add(powerup);
+    }
+
+
+    public int getMoney() {
+        return money;
     }
 }

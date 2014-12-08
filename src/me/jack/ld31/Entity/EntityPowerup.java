@@ -15,6 +15,8 @@ import java.awt.*;
 public class EntityPowerup extends Entity{
 
     Powerup powerup;
+
+    long life = 900;
     public EntityPowerup(float x, float y,Powerup powerup) {
         super(x, y);
        this.powerup = powerup;
@@ -27,6 +29,8 @@ public class EntityPowerup extends Entity{
 
     @Override
     public void update(Level level) {
+        life--;
+        if(life <=0)level.removeEntity(this);
         Rectangle eRectangle = new Rectangle((int) getX(), (int) getY(), 16, 16);
         Rectangle pRectangle = new Rectangle((int) level.getPlayer().getX(), (int) level.getPlayer().getY(), 16, 16);
         if (eRectangle.intersects(pRectangle)) {

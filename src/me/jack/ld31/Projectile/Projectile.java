@@ -11,7 +11,7 @@ public abstract class Projectile {
     private float damage;
     private int moveSpeed;
     private String name;
-    public static Image i;
+    public Image i;
     public float life;
 
     public Projectile(float damage, int moveSpeed,String name,Image i,float life){

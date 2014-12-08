@@ -1,9 +1,6 @@
 package me.jack.ld31.Level;
 
-import me.jack.ld31.Entity.Entity;
-import me.jack.ld31.Entity.EntityBaseEnemy;
-import me.jack.ld31.Entity.EntityPlayer;
-import me.jack.ld31.Entity.Mob;
+import me.jack.ld31.Entity.*;
 import me.jack.ld31.Projectile.BulletProjectile;
 import me.jack.ld31.States.InGameState;
 import org.newdawn.slick.Color;
@@ -45,7 +42,7 @@ public class Level {
 
     private ArrayList<MobSpawner> spawners = new ArrayList<MobSpawner>();
 
-    private int round = 1;
+    private int round = 8;
 
    public ParticleSystem particleSystem =new ParticleSystem();
 
@@ -87,18 +84,11 @@ public class Level {
 
         spawners.add(new MobSpawner(2,height -4));
         spawners.add(new MobSpawner(width - 4,height-4));
-        round = 1;
-
-        for(int x = 0;x!= width;x++){
-            for(int y =0 ;y!= height;y++){
-                if(new Random().nextInt(5) == 0 && tiles[x][y] == 0){
-                    tiles[x][y] = 2;
-                }
-            }
-        }
+        round = 0;
 
 
-        BulletProjectile.i = Level.sprites.getSprite(0,0);
+
+
 
 
 
@@ -138,13 +128,22 @@ public class Level {
 
         timeTillNextRound -=delta;
         if(timeTillNextRound <= 0) {
-            for (MobSpawner spawner : spawners) {
-
-                spawner.spawnWave(this);
-
-            }
             round += 1;
-            timeTillNextRound = 5000 * round/2;
+
+            if(round %10== 0){
+                System.out.println("Adding boss");
+                    entities.clear();
+                EntityBossSnowman bs = new EntityBossSnowman(400,300,true,round);
+                bs.init();
+                entities.add(bs);
+            }else {
+                for (MobSpawner spawner : spawners) {
+                    spawner.spawnWave(this);
+
+                }
+            }
+
+            timeTillNextRound = 5000 * round;
         }
 
 
@@ -181,7 +180,7 @@ public class Level {
         //g.setColor(Color.red);
 
         g.setColor(Color.black);
-        if(timeTillNextRound < 5000){
+        if(timeTillNextRound < 5000 && player.getHealth() >0){
             g.drawString("Next round starts in: " +  (timeTillNextRound/1000),300,400);
         }
           g.setColor(Color.white);
@@ -209,11 +208,22 @@ public class Level {
                 found = true;
             }
             if(!found){
-                round+=1;
-                for(MobSpawner spawner: spawners){
-                    spawner.spawnWave(this);
-                    timeTillNextRound = 10000;
+                round += 1;
+                System.out.println(round + "::::" + round % 10);
+                if(round %10== 0){
+                    System.out.println("Adding boss");
+                    entities.clear();
+                    EntityBossSnowman bs = new EntityBossSnowman(400,300,true,round);
+                    bs.init();
+                    entities.add(bs);
+                }else {
+                    for (MobSpawner spawner : spawners) {
+                        spawner.spawnWave(this);
+
+                    }
                 }
+
+                timeTillNextRound = 5000 * round;
             }
         }
     }
